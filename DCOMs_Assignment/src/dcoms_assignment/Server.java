@@ -10,7 +10,7 @@ public class Server {
             
             Identify Action1 = new IdentifyImpl();  //create object based on action class
             
-            reg.rebind("rmi://localhost/SelfIdentify", Action1); 
+            reg.rebind("SelfIdentify", Action1); 
             //basically adding this as an action client can find and use
             
             System.out.println("Server is now running... ");

@@ -9,8 +9,8 @@ public class IdentifyImpl extends UnicastRemoteObject implements Identify{
     }
     
     @Override
-    public String Identify(){
-        return("Hi, its me!");
+    public String Identify(Staff staff){
+        return("Hi, this is "+staff.getName()+" from "+staff.getRole());
         //return simple string for now
         //same thing, when we have user type class
         //can make it a login
