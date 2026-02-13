@@ -6,12 +6,12 @@ import java.rmi.registry.Registry;
 
 public class HR extends Staff implements Serializable{   //lets have an HR say hi
     
-    public HR(String Name){
-        super(Name, "HR");
+    public HR(String StaffID, String Name){
+        super(StaffID, Name, "HR");
     }
 
     public static void main(String[] args) {
-        HR hr1 = new HR("Hannah");
+        HR hr1 = new HR("H1","Hannah");
         try{
             Registry reg = LocateRegistry.getRegistry("localhost",1099);
             Identify Action = (Identify)reg.lookup("SelfIdentify");

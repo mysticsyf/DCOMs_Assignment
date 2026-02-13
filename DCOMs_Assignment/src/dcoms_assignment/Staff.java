@@ -6,12 +6,16 @@ import java.rmi.registry.Registry;
 
 public class Staff implements Serializable{
     private static final long serialVersionUID = 1L;
+    String StaffID;
     String Name;
     String Role;
+    String Password;
 
-    public Staff(String Name, String Role) {
+    public Staff(String StaffID, String Name, String Role) {
+        this.StaffID = StaffID;
         this.Name = Name;
         this.Role = Role;
+        this.Password = "abc";
     }
 
     public String getName() {
@@ -21,9 +25,17 @@ public class Staff implements Serializable{
     public String getRole() {
         return Role;
     }
+
+    public String getStaffID() {
+        return StaffID;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
     
     public static void main(String[] args){
-        Staff Staff1 = new Staff("Bob", "IT");
+        Staff Staff1 = new Staff("S1","Bob", "IT");
 
         try{
             Registry reg = LocateRegistry.getRegistry("localhost",1099);
