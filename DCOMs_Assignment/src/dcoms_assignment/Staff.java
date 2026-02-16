@@ -11,11 +11,11 @@ public class Staff implements Serializable{
     String Role;
     String Password;
 
-    public Staff(String StaffID, String Name, String Role) {
+    public Staff(String StaffID, String Name, String Role, String Password) {
         this.StaffID = StaffID;
         this.Name = Name;
         this.Role = Role;
-        this.Password = "abc";
+        this.Password = Password;
     }
 
     public String getName() {
@@ -34,19 +34,19 @@ public class Staff implements Serializable{
         return Password;
     }
     
-    public static void main(String[] args){
-        Staff Staff1 = new Staff("S1","Bob", "IT");
-
-        try{
-            Registry reg = LocateRegistry.getRegistry("localhost",1099);
-            Identify Action = (Identify)reg.lookup("SelfIdentify");
-
-            String greet = Action.Identify(Staff1);
-            System.out.println(greet);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args){
+//        Staff Staff1 = new Staff("S1","Bob", "IT");
+//
+//        try{
+//            Registry reg = LocateRegistry.getRegistry("localhost",1099);
+//            Identify Action = (Identify)reg.lookup("SelfIdentify");
+//
+//            String greet = Action.Identify(Staff1);
+//            System.out.println(greet);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
    
 }
