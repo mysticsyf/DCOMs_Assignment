@@ -39,10 +39,15 @@ public class StaffService {
             Out.writeObject(StaffMap);
             Out.close();
             FileOut.close();
-            System.out.println("Book serialized and saved to file");
+            System.out.println("Saved changes made to "+FileName);
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+    
+    public void AddStaff(Staff staff) {
+        StaffMap.put(staff.getStaffID(), staff);
+        SavetoFile();
     }
     
     public Staff CheckLogin(String StaffID, String Password){
@@ -57,6 +62,10 @@ public class StaffService {
         }else{
             return null;
         }
+    }
+    
+    public Map<String, Staff> getAllStaff(){
+        return StaffMap;
     }
     
     //add more find staff stuff
