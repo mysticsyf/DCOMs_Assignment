@@ -10,7 +10,7 @@ public class Client {
             
             Login login = (Login)reg.lookup("Login");
             
-            Staff CurrentUser = login.Login("HR01", "1234");
+            Staff CurrentUser = login.Login("ST01", "1234");
 
             if(CurrentUser != null){
                 System.out.println("Currently logged in as "+CurrentUser.getName());
