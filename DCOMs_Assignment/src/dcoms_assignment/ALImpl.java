@@ -1,7 +1,7 @@
 package dcoms_assignment;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
+//test
 public class ALImpl extends UnicastRemoteObject implements ApplyLeave{
     private LeaveService service;
     
