@@ -3,13 +3,13 @@ package dcoms_assignment;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
+
 public class Server {
     public static void main(String[] args){
         try{
             //Leave Stuff *change place/remove later
             LeaveService leaveService = new LeaveService();
             ALImpl applyLeaveImpl = new ALImpl(leaveService);
-            
             Registry reg = LocateRegistry.createRegistry(1099); //creating a server under 1099
             StaffService SS = new StaffService();
             
@@ -29,6 +29,8 @@ public class Server {
 //            Identify Action1 = new IdentifyImpl();  //create object based on action class
             
             reg.rebind("Login", LoginAction); 
+            reg.rebind("ApplyLeave", applyLeaveImpl);
+
             //basically adding this as an action client can find and use
             
             System.out.println("Server is now running... ");
@@ -41,3 +43,4 @@ public class Server {
     }
     
 }
+
