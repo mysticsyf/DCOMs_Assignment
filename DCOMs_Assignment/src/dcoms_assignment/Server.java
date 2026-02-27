@@ -2,6 +2,7 @@ package dcoms_assignment;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.time.LocalDate;
 
 
 public class Server {
@@ -12,6 +13,32 @@ public class Server {
             ALImpl applyLeaveImpl = new ALImpl(leaveService);
             Registry reg = LocateRegistry.createRegistry(1099); //creating a server under 1099
             StaffService SS = new StaffService();
+            
+            //Example for Leaves
+            if (leaveService.getAllLeaves().isEmpty()) {
+                Leaves leave1 = new Leaves(
+                        "L001",
+                        "ST01",
+                        LocalDate.of(2026, 3, 1),
+                        LocalDate.of(2026, 3, 3),
+                        "Medical Leave",
+                        "APPROVED"
+                );
+
+                Leaves leave2 = new Leaves(
+                        "L002",
+                        "HR01",
+                        LocalDate.of(2026, 3, 5),
+                        LocalDate.of(2026, 3, 6),
+                        "Personal Leave",
+                        "PENDING"
+                );
+
+                leaveService.ApplyLeave(leave1);
+                leaveService.ApplyLeave(leave2);
+
+                System.out.println("Default leaves created.");
+            }
             
             if (SS.getAllStaff().isEmpty()) {
 
