@@ -10,10 +10,13 @@ public class Server {
         try{
             //Leave Stuff *change place/remove later
             LeaveService leaveService = new LeaveService();
-            ALImpl applyLeaveImpl = new ALImpl(leaveService);
-            Registry reg = LocateRegistry.createRegistry(1099); //creating a server under 1099
             StaffService SS = new StaffService();
             
+            Registry reg = LocateRegistry.createRegistry(1099); //creating a server under 1099
+            
+            ALImpl applyLeaveImpl = new ALImpl(leaveService);
+            Login LoginAction = new LoginImpl(SS);
+
             //Example for Leaves
             if (leaveService.getAllLeaves().isEmpty()) {
                 Leaves leave1 = new Leaves(
@@ -51,9 +54,6 @@ public class Server {
                 System.out.println("Default staff created.");
             }
             
-            Login LoginAction = new LoginImpl(SS);
-            
-//            Identify Action1 = new IdentifyImpl();  //create object based on action class
             
             reg.rebind("Login", LoginAction); 
             reg.rebind("ApplyLeave", applyLeaveImpl);
