@@ -2,6 +2,7 @@ package dcoms_assignment;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDate;
 
 import java.util.Map;
 //test 2
@@ -15,9 +16,8 @@ public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
     }
 
     @Override
-    public String applyLeave(Leaves leave) throws RemoteException {
-        service.ApplyLeave(leave);
-        return "\nLeave applied successfully for Staff ID: " + leave.getStaffId() + "\n Your Leave ID is: " + leave.getLeaveId();
+    public void applyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) throws RemoteException {
+        service.ApplyLeave(staff, date1, date2, reason);
     }
 
     @Override
