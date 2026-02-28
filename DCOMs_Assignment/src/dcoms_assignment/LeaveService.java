@@ -1,6 +1,7 @@
 package dcoms_assignment;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,21 @@ public class LeaveService {
         leaveMap.put(newId, leave);
         saveToFile();
         return newId;
+    }
+    
+    public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason){
+        String newId = generateLeaveId();
+        Leaves NewLeave = new Leaves(
+                "",
+                staff.getStaffID(),
+                date1,
+                date2,
+                reason,
+                "PENDING"
+        );
+        NewLeave.setLeaveId(newId);
+        leaveMap.put(newId,NewLeave);
+        saveToFile();
     }
 
     public String ApproveLeave(String leaveId) {
