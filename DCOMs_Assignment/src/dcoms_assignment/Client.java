@@ -12,7 +12,7 @@ public class Client {
             Registry reg = LocateRegistry.getRegistry("localhost", 1099);
 
             Login login = (Login) reg.lookup("Login");
-
+            
             Staff CurrentUser = login.Login("HR01", "1234");
             if (CurrentUser != null) {
                 if (CurrentUser.getRole().equals("STAFF")) {
@@ -37,10 +37,8 @@ public class Client {
                                 System.out.println("Enter leave reason: ");
                                 String reason = sc.nextLine();
 
-                                Leaves leave = new Leaves("", CurrentUser.getStaffID(), start, end, reason, "PENDING"); //leave id auto increment
-
-                                String result = al.applyLeave(leave);
-                                System.out.println(result);
+                                al.applyLeave(CurrentUser, start, end, reason);
+                                
                                 break;
                             case 2:
                                 System.out.println("Exiting...");
