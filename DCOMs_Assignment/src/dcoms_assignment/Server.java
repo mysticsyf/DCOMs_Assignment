@@ -15,7 +15,7 @@ public class Server {
             Registry reg = LocateRegistry.createRegistry(1099); //creating a server under 1099
             
             ALImpl applyLeaveImpl = new ALImpl(leaveService);
-            Login LoginAction = new LoginImpl(SS);
+            StaffAction StaffActions = new StaffActionImpl(SS);
 
             //Example for Leaves
             if (leaveService.getAllLeaves().isEmpty()) {
@@ -44,9 +44,8 @@ public class Server {
             }
             
             if (SS.getAllStaff().isEmpty()) {
-
-                Staff hr = new Staff("HR01", "Alice", "HR", "1234");
-                Staff staff = new Staff("ST01", "Bob", "STAFF", "1234");
+                Staff hr = new Staff("HR01", "Alice", "HR", "1234", 3000);
+                Staff staff = new Staff("ST01", "Bob", "STAFF", "1234", 5000);
 
                 SS.AddStaff(hr);
                 SS.AddStaff(staff);
@@ -55,7 +54,7 @@ public class Server {
             }
             
             
-            reg.rebind("Login", LoginAction); 
+            reg.rebind("StaffAction", StaffActions); 
             reg.rebind("ApplyLeave", applyLeaveImpl);
 
             //basically adding this as an action client can find and use
