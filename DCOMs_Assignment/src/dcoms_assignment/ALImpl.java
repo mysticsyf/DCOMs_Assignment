@@ -10,6 +10,7 @@ import java.util.Map;
 public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
 
     private LeaveService service;
+
     protected ALImpl(LeaveService leaveService) throws RemoteException {
         super();
         this.service = leaveService;
@@ -21,8 +22,13 @@ public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
     }
 
     @Override
-    public Map<String, Leaves> getAllLeaves() throws RemoteException {
+    public String getAllLeaves() throws RemoteException {
         return service.getAllLeaves();
+    }
+
+    @Override
+    public String getLeavesByStaffId(String staffId) throws RemoteException {
+        return service.getLeavesByStaffId(staffId);
     }
 
     @Override
@@ -35,4 +41,8 @@ public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
         return service.RejectLeave(leaveId);
     }
 
+    @Override
+    public String DeleteLeave(String leaveId) throws RemoteException {
+        return service.DeleteLeave(leaveId);
+    }
 }

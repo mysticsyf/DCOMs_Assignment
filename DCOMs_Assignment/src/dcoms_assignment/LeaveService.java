@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class LeaveService {
 
+    StringBuilder sb = new StringBuilder();
     private Map<String, Leaves> leaveMap = new HashMap<>();
     private final String FileName = "leaves.ser";
 
@@ -56,8 +57,8 @@ public class LeaveService {
         saveToFile();
         return newId;
     }
-    
-    public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason){
+
+    public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
         String newId = generateLeaveId();
         Leaves NewLeave = new Leaves(
                 "",
@@ -68,7 +69,7 @@ public class LeaveService {
                 "PENDING"
         );
         NewLeave.setLeaveId(newId);
-        leaveMap.put(newId,NewLeave);
+        leaveMap.put(newId, NewLeave);
         saveToFile();
     }
 
@@ -78,7 +79,7 @@ public class LeaveService {
         if (leave != null) {
             leave.setStatus("APPROVED");
             saveToFile();
-            return "Leave ID: " +leaveId+" has been approved!";
+            return "Leave ID: " + leaveId + " has been approved!";
         } else {
             return "Leave not found";
         }
@@ -90,14 +91,80 @@ public class LeaveService {
         if (leave != null) {
             leave.setStatus("REJECTED");
             saveToFile();
-            return "Leave ID: " +leaveId+" has been rejected!";
+            return "Leave ID: " + leaveId + " has been rejected!";
         } else {
             return "Leave not found";
         }
     }
-    
-    public Map<String, Leaves> getAllLeaves() {
+
+    public String getAllLeaves() {
+
         loadFromFile();
-        return leaveMap;
+
+        if (leaveMap.isEmpty()) {
+            return "No leave records found.";
+        }
+        for (Leaves leave : leaveMap.values()) {
+            sb.append("----------------------------\n");
+            sb.append("Leave ID: ").append(leave.getLeaveId()).append("\n");
+            sb.append("Staff ID: ").append(leave.getStaffId()).append("\n");
+            sb.append("Start Date: ").append(leave.getStartDate()).append("\n");
+            sb.append("End Date: ").append(leave.getEndDate()).append("\n");
+            sb.append("Reason: ").append(leave.getReason()).append("\n");
+            sb.append("Status: ").append(leave.getStatus()).append("\n");
+        }
+        sb.append("\nDo you want to:");
+        sb.append("\n1. Approve Leave");
+        sb.append("\n2. Reject Leave");
+        sb.append("\n3. Delete Leave");
+        sb.append("\n4. Exit");
+        sb.append("\nEnter choice: ");
+        return sb.toString();
     }
+
+    public String getLeavesByStaffId(String staffId) {
+
+        loadFromFile();
+
+        if (leaveMap.isEmpty()) {
+            return "No leave records found.";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+
+        for (Leaves leave : leaveMap.values()) {
+
+            if (leave.getStaffId().equals(staffId)) {
+                found = true;
+                sb.append("----------------------------\n");
+                sb.append("Leave ID: ").append(leave.getLeaveId()).append("\n");
+                sb.append("Start Date: ").append(leave.getStartDate()).append("\n");
+                sb.append("End Date: ").append(leave.getEndDate()).append("\n");
+                sb.append("Reason: ").append(leave.getReason()).append("\n");
+                sb.append("Status: ").append(leave.getStatus()).append("\n");
+            }
+        }
+
+        if (!found) {
+            return "No record found for StaffID: " + staffId;
+        }
+
+        return sb.toString();
+    }
+
+    public String DeleteLeave(String leaveId) {
+
+        loadFromFile();
+
+        if (!leaveMap.containsKey(leaveId)) {
+            return "Leave ID not found.";
+        }
+
+        leaveMap.remove(leaveId);
+        saveToFile();
+
+        return "LeaveID: " + leaveId + " deleted successfully";
+    }
+
 }

@@ -12,7 +12,7 @@ public class Client {
             Registry reg = LocateRegistry.getRegistry("localhost", 1099);
 
             Login login = (Login) reg.lookup("Login");
-            
+
             Staff CurrentUser = login.Login("HR01", "1234");
             if (CurrentUser != null) {
                 if (CurrentUser.getRole().equals("STAFF")) {
@@ -22,31 +22,32 @@ public class Client {
                     do {
                         System.out.println("\n===== STAFF MENU =====");
                         System.out.println("1. Apply Leave");
-                        System.out.println("2. Exit");
+                        System.out.println("2. View your Leave");
+
                         System.out.print("Enter choice: ");
                         choice = sc.nextInt();
                         sc.nextLine();
-                        switch (choice) {
-                            case 1:
-                                System.out.println("Enter start date (YYYY-MM-DD): ");
-                                LocalDate start = LocalDate.parse(sc.nextLine());
+                        if (choice == 1) {
+                            System.out.println("Enter start date (YYYY-MM-DD): ");
+                            LocalDate start = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter end date (YYYY-MM-DD): ");
-                                LocalDate end = LocalDate.parse(sc.nextLine());
+                            System.out.println("Enter end date (YYYY-MM-DD): ");
+                            LocalDate end = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter leave reason: ");
-                                String reason = sc.nextLine();
+                            System.out.println("Enter leave reason: ");
+                            String reason = sc.nextLine();
 
-                                al.applyLeave(CurrentUser, start, end, reason);
-                                
-                                break;
-                            case 2:
-                                System.out.println("Exiting...");
-                                break;
-                            default:
-                                System.out.println("Invalid choice.");
+                            al.applyLeave(CurrentUser, start, end, reason);
+
+                        } else if (choice == 2) {
+
+                            String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
+                            System.out.println(result);
+                        } else {
+                            System.out.println("Invalid choice.");
                         }
-                    } while (choice != 2);
+
+                    } while (choice != 3);
 
                 } else if (CurrentUser.getRole().equals("HR")) {
                     ApplyLeave al = (ApplyLeave) reg.lookup("ApplyLeave");
@@ -62,55 +63,41 @@ public class Client {
                         sc.nextLine();
                         if (choice == 1) {
 
-                            Map<String, Leaves> leaves = al.getAllLeaves();
+                            String leaveDetails = al.getAllLeaves();
 
-                            if (leaves.isEmpty()) {
-                                System.out.println("No record found.");
+                            System.out.println(leaveDetails);
+                            int choice2 = sc.nextInt();
+                            sc.nextLine();
+                            if (choice2 == 1) {
+
+                                System.out.print("Enter Leave ID to approve: ");
+                                String leaveId = sc.nextLine();
+
+                                String message = al.ApproveLeave(leaveId);
+                                System.out.println(message);
+
+                            } else if (choice2 == 2) {
+
+                                System.out.print("Enter Leave ID to reject: ");
+                                String leaveId = sc.nextLine();
+
+                                String message = al.RejectLeave(leaveId);
+                                System.out.println(message);
+
+                            } else if (choice2 == 3) {
+
+                                System.out.print("Enter Leave ID to delete: ");
+                                String leaveId = sc.nextLine();
+                                String result = al.DeleteLeave(leaveId);
+                                System.out.println(result);
+
+                            } else if (choice2 == 4) {
+                                System.out.println("Returning to HR menu");
                             } else {
-                                System.out.println("\n===== All leave Applications =====");
-                                for (Leaves leave : leaves.values()) {
-                                    System.out.println("----------------------------");
-                                    System.out.println("Leave ID: " + leave.getLeaveId());
-                                    System.out.println("Staff ID: " + leave.getStaffId());
-                                    System.out.println("Start Date: " + leave.getStartDate());
-                                    System.out.println("End Date: " + leave.getEndDate());
-                                    System.out.println("Reason: " + leave.getReason());
-                                    System.out.println("Status: " + leave.getStatus());
-                                }
-
-                                System.out.println("\nDo you want to:");
-                                System.out.println("1. Approve Leave");
-                                System.out.println("2. Reject Leave");
-                                System.out.println("3. Exit");
-                                System.out.print("Enter choice: ");
-
-                                int choice2 = sc.nextInt();
-                                sc.nextLine();
-
-                                if (choice2 == 1) {
-
-                                    System.out.print("Enter Leave ID to approve: ");
-                                    String leaveId = sc.nextLine();
-
-                                    String message = al.ApproveLeave(leaveId);
-                                    System.out.println(message);
-
-                                } else if (choice2 == 2) {
-
-                                    System.out.print("Enter Leave ID to reject: ");
-                                    String leaveId = sc.nextLine();
-
-                                    String message = al.RejectLeave(leaveId);
-                                    System.out.println(message);
-
-                                } else if (choice2 == 3) {
-
-                                    System.out.println("Returning to HR menu");
-                                } else {
-                                    System.out.println("Invalid choice.");
-                                }
+                                System.out.println("Invalid choice");
                             }
                         }
+
                     } while (choice != 2);
                 }
             }
