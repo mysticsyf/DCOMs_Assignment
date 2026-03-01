@@ -11,9 +11,9 @@ public class Client {
         try {
             Registry reg = LocateRegistry.getRegistry("localhost", 1099);
 
-            Login login = (Login) reg.lookup("Login");
+            StaffAction StaffActions = (StaffAction) reg.lookup("StaffAction");
 
-            Staff CurrentUser = login.Login("HR01", "1234");
+            Staff CurrentUser = StaffActions.Login("HR01", "1234");
             if (CurrentUser != null) {
                 if (CurrentUser.getRole().equals("STAFF")) {
                     ApplyLeave al = (ApplyLeave) reg.lookup("ApplyLeave");
@@ -23,6 +23,8 @@ public class Client {
                         System.out.println("\n===== STAFF MENU =====");
                         System.out.println("1. Apply Leave");
                         System.out.println("2. View your Leave");
+                        System.out.println("3. View your Profile");
+                        
 
                         System.out.print("Enter choice: ");
                         choice = sc.nextInt();
@@ -40,9 +42,13 @@ public class Client {
                             al.applyLeave(CurrentUser, start, end, reason);
 
                         } else if (choice == 2) {
-
                             String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
                             System.out.println(result);
+                            
+                        } else if (choice == 3){
+                            String result = StaffActions.ViewProfile(CurrentUser);
+                            System.out.println(result);
+                      
                         } else {
                             System.out.println("Invalid choice.");
                         }
@@ -57,7 +63,8 @@ public class Client {
                     do {
                         System.out.println("\n===== HR MENU =====");
                         System.out.println("1. View Leave Applications");
-                        System.out.println("2. Exit");
+                        System.out.println("2. Update Staff Profile");
+                        System.out.println("3. Exit");
                         System.out.print("Enter choice: ");
                         choice = sc.nextInt();
                         sc.nextLine();
@@ -96,9 +103,46 @@ public class Client {
                             } else {
                                 System.out.println("Invalid choice");
                             }
+                        }else if (choice == 2){
+                            String StaffDetails = StaffActions.GetAllStaff();
+                            System.out.println(StaffDetails);
+                            
+                            String ChosenID = sc.nextLine();
+                            System.out.println("\n1. Name" + "\n2. Role" + 
+                                    "\n3. Password" + "\n4. Salary" + 
+                                    "\n5. Remaining Leaves");
+                            System.out.println("Select attribute to update: ");
+                            int choice2 = sc.nextInt();
+                            
+                            if(choice2 == 1){
+                                System.out.println("Enter the new Name: ");
+                                String newName = sc.nextLine();
+                                
+                                StaffActions.UpdateName(ChosenID, newName);
+                            }else if (choice2 == 2){
+                                System.out.println("Enter the new Role: ");
+                                String newRole = sc.nextLine();
+                                
+                                StaffActions.UpdateRole(ChosenID, newRole);
+                            }else if (choice2 == 3){
+                                System.out.println("Enter the new Password: ");
+                                String newPassword = sc.nextLine();
+                                
+                                StaffActions.UpdatePassword(ChosenID, newPassword);
+                            }else if (choice2 == 4){
+                                System.out.println("Enter the new Salary: ");
+                                int newSalary = sc.nextInt();
+                                
+                                StaffActions.UpdateSalary(ChosenID, newSalary);
+                            }else if (choice2 == 5){
+                                System.out.println("Enter the new Remaining Leaves: ");
+                                int newRemLeave = sc.nextInt();
+                                
+                                StaffActions.UpdateLeaves(ChosenID, newRemLeave);
+                            }                  
                         }
 
-                    } while (choice != 2);
+                    } while (choice != 3);
                 }
             }
         } catch (Exception e) {
