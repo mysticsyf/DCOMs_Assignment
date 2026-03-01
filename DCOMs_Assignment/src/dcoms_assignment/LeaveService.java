@@ -59,18 +59,22 @@ public class LeaveService {
     }
 
     public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
-        String newId = generateLeaveId();
-        Leaves NewLeave = new Leaves(
-                "",
-                staff.getStaffID(),
-                date1,
-                date2,
-                reason,
-                "PENDING"
-        );
-        NewLeave.setLeaveId(newId);
-        leaveMap.put(newId, NewLeave);
-        saveToFile();
+        if(staff.getRemainingLeaves() <= 0){
+            System.out.println("no more leaves available");
+        }else{
+            String newId = generateLeaveId();
+            Leaves NewLeave = new Leaves(
+                    "",
+                    staff.getStaffID(),
+                    date1,
+                    date2,
+                    reason,
+                    "PENDING"
+            );
+            NewLeave.setLeaveId(newId);
+            leaveMap.put(newId, NewLeave);
+            saveToFile();
+        }
     }
 
     public String ApproveLeave(String leaveId) {
@@ -79,6 +83,8 @@ public class LeaveService {
         if (leave != null) {
             leave.setStatus("APPROVED");
             saveToFile();
+            String StaffID = leave.getStaffId();
+            
             return "Leave ID: " + leaveId + " has been approved!";
         } else {
             return "Leave not found";
