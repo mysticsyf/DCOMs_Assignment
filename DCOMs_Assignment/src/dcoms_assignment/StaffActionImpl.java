@@ -26,10 +26,15 @@ public class StaffActionImpl extends UnicastRemoteObject implements StaffAction{
     }
     
     @Override
+    public String ViewProfile(String StaffID) throws RemoteException {
+        return service.ViewProfile(StaffID);
+    }
+    
+    @Override
     public String GetAllStaff() throws RemoteException {
         return service.getAllStaff();
     }
-
+    
     @Override
     public String UpdateName(String ChosenID, String newName) throws RemoteException {
         return service.UpdateName(ChosenID, newName);

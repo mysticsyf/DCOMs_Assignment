@@ -81,8 +81,8 @@ public class StaffService {
         SavetoFile();
     }
     
-    public void AddStaff(String name, String role, int salary){
-        Staff NewStaff = new Staff("", name, role, "1234", salary);
+    public void AddStaff(String name, String role, String MaritalStatus, int salary){
+        Staff NewStaff = new Staff("", name, role, "1234", MaritalStatus, salary);
         String newId = generateStaffId(NewStaff);
         NewStaff.setStaffID(newId);
         StaffMap.put(newId, NewStaff);
@@ -105,6 +105,11 @@ public class StaffService {
     
     public String ViewProfile(Staff staff){
         Staff StaffShow = StaffMap.get(staff.getStaffID());
+        return StaffShow.toString();
+    }
+    
+    public String ViewProfile(String StaffID){
+        Staff StaffShow = StaffMap.get(StaffID);
         return StaffShow.toString();
     }
     
@@ -162,7 +167,7 @@ public class StaffService {
             sb.append("Role: ").append(staff.getRole()).append("\n");
             sb.append("Password: ").append(staff.getPassword()).append("\n");
             sb.append("Salary: ").append(staff.getSalary()).append("\n");
-            sb.append("Remaining Leaves").append(staff.getRemainingLeaves()).append("\n");
+            sb.append("Remaining Leaves: ").append(staff.getRemainingLeaves()).append("\n");
         }
         sb.append("\nSelect StaffID: ");
         return sb.toString();
