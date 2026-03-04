@@ -11,17 +11,22 @@ public class Staff implements Serializable{
     String Name;
     String Role;
     String Password;
+    String MaritalStatus;
     int RemainingLeaves;
     int Salary;
-    LocalDate UpcomingLeave;
 
-    public Staff(String StaffID, String Name, String Role, String Password, int Salary) {
+    public Staff(String StaffID, String Name, String Role, String Password, String MaritalStatus, int Salary) {
         this.StaffID = StaffID;
         this.Name = Name;
         this.Role = Role;
         this.Password = Password;
+        this.MaritalStatus = MaritalStatus;
         this.RemainingLeaves = 5;
         this.Salary = Salary;
+    }
+
+    public String getMaritalStatus() {
+        return MaritalStatus;
     }
 
     public String getName() {
@@ -56,6 +61,10 @@ public class Staff implements Serializable{
         this.Password = Password;
     }
 
+    public void setMaritalStatus(String MaritalStatus) {
+        this.MaritalStatus = MaritalStatus;
+    }
+
     public void setRemainingLeaves(int RemainingLeaves) {
         this.RemainingLeaves = RemainingLeaves;
     }
@@ -82,10 +91,12 @@ public class Staff implements Serializable{
 
     @Override
     public String toString() {
-        return "Staff{" + "StaffID=" + StaffID + ", \nName=" + Name + 
-                ", \nRole=" + Role + ", \nPassword=" + Password + 
-                ", \nRemainingLeaves=" + RemainingLeaves + 
-                ", \nSalary=" + Salary + ", \nUpcomingLeave=" + UpcomingLeave + '}';
+        return "StaffID: " + StaffID + ", \nName: " + Name + 
+                ", \nRole: " + Role + ", \nPassword: " + Password + 
+                ", \nMartialStatus: " + MaritalStatus +
+                ", \nSalary: " + Salary +
+                ", \nRemainingLeaves: " + RemainingLeaves;
+        
     }
     
     
