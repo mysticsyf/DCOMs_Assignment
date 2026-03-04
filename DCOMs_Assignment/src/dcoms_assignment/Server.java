@@ -44,8 +44,8 @@ public class Server {
             }
             
             if (SS.getAllStaff().isEmpty()) {
-                Staff hr = new Staff("HR01", "Alice", "HR", "1234", 3000);
-                Staff staff = new Staff("ST01", "Bob", "STAFF", "1234", 5000);
+                Staff hr = new Staff("HR01", "Alice", "HR", "1234", "Married", 3000);
+                Staff staff = new Staff("ST01", "Bob", "STAFF", "1234", "Single", 5000);
 
                 SS.AddStaff(hr);
                 SS.AddStaff(staff);
