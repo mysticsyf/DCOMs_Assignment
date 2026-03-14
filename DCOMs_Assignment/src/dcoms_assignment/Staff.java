@@ -7,13 +7,13 @@ import java.time.LocalDate;
 
 public class Staff implements Serializable{
     private static final long serialVersionUID = 1L;
-    String StaffID;
-    String Name;
-    String Role;
-    String Password;
-    String MaritalStatus;
-    int RemainingLeaves;
-    int Salary;
+    private String StaffID;
+    private String Name;
+    private String Role;
+    private String Password;
+    private String MaritalStatus;
+    private int RemainingLeaves;
+    private int Salary;
 
     public Staff(String StaffID, String Name, String Role, String Password, String MaritalStatus, int Salary) {
         this.StaffID = StaffID;
