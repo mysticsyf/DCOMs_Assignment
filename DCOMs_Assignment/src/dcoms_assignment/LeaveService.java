@@ -11,11 +11,16 @@ public class LeaveService {
     private Map<String, Leaves> leaveMap = new HashMap<>();
     private final String FileName = "leaves.ser";
 
+    public Map<String, Leaves> getLeaves() {
+        loadFromFile();
+        return leaveMap;
+    }
+
     private void loadFromFile() {
         File file = new File(FileName);
 
         if (!file.exists()) {
-            System.out.println("no file found");
+            System.out.println("No file found.");
             return;
         }
 
@@ -59,9 +64,9 @@ public class LeaveService {
     }
 
     public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
-        if(staff.getRemainingLeaves() <= 0){
+        if (staff.getRemainingLeaves() <= 0) {
             System.out.println("no more leaves available");
-        }else{
+        } else {
             String newId = generateLeaveId();
             Leaves NewLeave = new Leaves(
                     "",
@@ -82,9 +87,11 @@ public class LeaveService {
         Leaves leave = leaveMap.get(leaveId);
         if (leave != null) {
             leave.setStatus("APPROVED");
-            saveToFile();
+           
             String StaffID = leave.getStaffId();
-            
+            StaffService staffService = new StaffService();
+            staffService.ReduceStaffLeave(StaffID);
+             saveToFile();
             return "Leave ID: " + leaveId + " has been approved!";
         } else {
             return "Leave not found";
@@ -106,7 +113,7 @@ public class LeaveService {
     public String getAllLeaves() {
 
         loadFromFile();
-
+        StringBuilder sb = new StringBuilder();
         if (leaveMap.isEmpty()) {
             return "No leave records found.";
         }

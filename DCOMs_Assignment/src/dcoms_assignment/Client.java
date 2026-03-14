@@ -40,48 +40,7 @@ public class Client {
                     }
                     
                 }else{
-                    if (CurrentUser.getRole().equals("STAFF")) {
-                        int choice;
-                        do {
-                            System.out.println("\n===== STAFF MENU =====");
-                            System.out.println("1. Apply Leave");
-                            System.out.println("2. View your Leave");
-                            System.out.println("3. View your Profile");
-                            System.out.println("4. Log Out");
-
-
-                            System.out.print("Enter choice: ");
-                            choice = sc.nextInt();
-                            sc.nextLine();
-                            if (choice == 1) {
-                                System.out.println("Enter start date (YYYY-MM-DD): ");
-                                LocalDate start = LocalDate.parse(sc.nextLine());
-
-                                System.out.println("Enter end date (YYYY-MM-DD): ");
-                                LocalDate end = LocalDate.parse(sc.nextLine());
-
-                                System.out.println("Enter leave reason: ");
-                                String reason = sc.nextLine();
-
-                                al.applyLeave(CurrentUser, start, end, reason);
-
-                            } else if (choice == 2) {
-                                String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
-                                System.out.println(result);
-
-                            } else if (choice == 3){
-                                String result = StaffActions.ViewProfile(CurrentUser);
-                                System.out.println(result);
-
-                            }else {
-                                System.out.println("Invalid choice.");
-                            }
-
-                        } while (choice != 4);
-                        
-                        CurrentUser = null;
-
-                    } else if (CurrentUser.getRole().equals("HR")) {
+                    if (CurrentUser.getRole().equals("HR")) {
 
                         int choice;
                         do {
@@ -89,7 +48,10 @@ public class Client {
                             System.out.println("1. View Leave Applications");
                             System.out.println("2. Update Staff Profile");
                             System.out.println("3. Generate Report");
-                            System.out.println("4. Exit");
+                            System.out.println("4. Apply Leave");
+                            System.out.println("5. View My Leave");
+                            System.out.println("6. View My Profile");
+                            System.out.println("7. Exit");
                             System.out.print("Enter choice: ");
                             choice = sc.nextInt();
                             sc.nextLine();
@@ -174,9 +136,69 @@ public class Client {
                                 
                                 System.out.println("\nStaff Leaves\n");
                                 System.out.println(al.getLeavesByStaffId(ChosenID));
+                            }else if(choice == 4){
+                                System.out.println("Enter start date (YYYY-MM-DD): ");
+                                LocalDate start = LocalDate.parse(sc.nextLine());
+
+                                System.out.println("Enter end date (YYYY-MM-DD): ");
+                                LocalDate end = LocalDate.parse(sc.nextLine());
+
+                                System.out.println("Enter leave reason: ");
+                                String reason = sc.nextLine();
+
+                                al.applyLeave(CurrentUser, start, end, reason);
+
+                            }else if(choice == 5){
+                                String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
+                                System.out.println(result);
+
+                            }else if(choice == 6){
+                                String result = StaffActions.ViewProfile(CurrentUser);
+                                System.out.println(result);
+                            }
+
+                        } while (choice != 7);
+                        CurrentUser = null;
+
+                    } else {
+
+                        int choice;
+                        do {
+                            System.out.println("\n===== STAFF MENU =====");
+                            System.out.println("1. Apply Leave");
+                            System.out.println("2. View your Leave");
+                            System.out.println("3. View your Profile");
+                            System.out.println("4. Log Out");
+
+                            System.out.print("Enter choice: ");
+                            choice = sc.nextInt();
+                            sc.nextLine();
+                            if (choice == 1) {
+                                System.out.println("Enter start date (YYYY-MM-DD): ");
+                                LocalDate start = LocalDate.parse(sc.nextLine());
+
+                                System.out.println("Enter end date (YYYY-MM-DD): ");
+                                LocalDate end = LocalDate.parse(sc.nextLine());
+
+                                System.out.println("Enter leave reason: ");
+                                String reason = sc.nextLine();
+
+                                al.applyLeave(CurrentUser, start, end, reason);
+
+                            } else if (choice == 2) {
+                                String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
+                                System.out.println(result);
+
+                            } else if (choice == 3){
+                                String result = StaffActions.ViewProfile(CurrentUser);
+                                System.out.println(result);
+
+                            } else {
+                                System.out.println("Invalid choice.");
                             }
 
                         } while (choice != 4);
+                        
                         CurrentUser = null;
                     }
                 }

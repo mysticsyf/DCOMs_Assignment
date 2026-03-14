@@ -74,7 +74,8 @@ public class Staff implements Serializable{
     }
     
     public void ReduceLeave(){
-        this.RemainingLeaves -= 1;
+        if(RemainingLeaves > 0){
+        RemainingLeaves--;}
     }
 
     public static long getSerialVersionUID() {

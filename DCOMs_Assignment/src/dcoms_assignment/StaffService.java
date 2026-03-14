@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StaffService {
-    
+
     StringBuilder sb = new StringBuilder();
     private Map<String, Staff> StaffMap;
     private final String FileName = "Staff.ser";
@@ -14,145 +14,156 @@ public class StaffService {
         StaffMap = new HashMap<>();
         LoadfromFile();
     }
-    
-    private void LoadfromFile(){
+
+    public Map<String, Staff> getStaff() {
+        LoadfromFile();
+        return StaffMap;
+    }
+
+    private void LoadfromFile() {
         File file = new File(FileName);
-        
-        if(!file.exists()){
+
+        if (!file.exists()) {
             System.out.println("no file bruh");
             return;
         }
-        
-        try{
+
+        try {
             FileInputStream FileIn = new FileInputStream(FileName);
             ObjectInputStream In = new ObjectInputStream(FileIn);
             StaffMap = (HashMap<String, Staff>) In.readObject();
-            for(Staff staff : StaffMap.values()){
-                if(staff.getRole() == "STAFF"){
+            for (Staff staff : StaffMap.values()) {
+                if (staff.getRole() == "STAFF") {
                     StaffCounter += 1;
-                }else if(staff.getRole() == "HR"){
+                } else if (staff.getRole() == "HR") {
                     HRCounter += 1;
                 }
             }
             In.close();
             FileIn.close();
-        } catch(IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-    
-    private void SavetoFile(){       
-        try{
+
+    private void SavetoFile() {
+        try {
             FileOutputStream FileOut = new FileOutputStream(FileName);
             ObjectOutputStream Out = new ObjectOutputStream(FileOut);
             Out.writeObject(StaffMap);
             Out.close();
             FileOut.close();
-            System.out.println("Saved changes made to "+FileName);
-        } catch (IOException e){
+            System.out.println("Saved changes made to " + FileName);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     private int StaffCounter = 1;
     private int HRCounter = 1;
-    
+
     private String generateStaffId(Staff staff) {
-        if(staff.getRole() == "STAFF"){
+        if (staff.getRole() == "STAFF") {
             return String.format("ST%02d", StaffCounter++);
-        }else if(staff.getRole() == "HR"){
+        } else if (staff.getRole() == "HR") {
             return String.format("HR%02d", HRCounter++);
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public void ReduceStaffLeave(String StaffID){
+
+    public void ReduceStaffLeave(String StaffID) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(StaffID);
-        ChosenStaff.ReduceLeave();
-        SavetoFile();
+        if (ChosenStaff != null) {
+            ChosenStaff.ReduceLeave();
+            SavetoFile();
+        } else {
+            System.out.println("Staff not found: " + StaffID);
+        }
     }
-    
-    public void AddStaff(Staff staff){
+
+    public void AddStaff(Staff staff) {
         String newId = generateStaffId(staff);
         staff.setStaffID(newId);
         StaffMap.put(newId, staff);
         SavetoFile();
     }
-    
-    public void AddStaff(String name, String role, String MaritalStatus, int salary){
+
+    public void AddStaff(String name, String role, String MaritalStatus, int salary) {
         Staff NewStaff = new Staff("", name, role, "1234", MaritalStatus, salary);
         String newId = generateStaffId(NewStaff);
         NewStaff.setStaffID(newId);
         StaffMap.put(newId, NewStaff);
         SavetoFile();
     }
-    
-    public Staff CheckLogin(String StaffID, String Password){
+
+    public Staff CheckLogin(String StaffID, String Password) {
         Staff staff = StaffMap.get(StaffID);
-        
-        if(staff == null){
+
+        if (staff == null) {
             return null;
         }
-        
-        if(staff.getPassword().equals(Password)){
+
+        if (staff.getPassword().equals(Password)) {
             return staff;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public String ViewProfile(Staff staff){
+
+    public String ViewProfile(Staff staff) {
+         LoadfromFile();
         Staff StaffShow = StaffMap.get(staff.getStaffID());
         return StaffShow.toString();
     }
-    
-    public String ViewProfile(String StaffID){
+
+    public String ViewProfile(String StaffID) {
+         LoadfromFile();
         Staff StaffShow = StaffMap.get(StaffID);
         return StaffShow.toString();
     }
-    
-    public String UpdateName(String ChosenID, String newName){
+
+    public String UpdateName(String ChosenID, String newName) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(ChosenID);
         ChosenStaff.setName(newName);
         SavetoFile();
         return "Name: " + newName + "has been updated";
     }
-    
-    public String UpdateRole(String ChosenID, String newRole){
+
+    public String UpdateRole(String ChosenID, String newRole) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(ChosenID);
         ChosenStaff.setRole(newRole);
         SavetoFile();
         return "Role: " + newRole + "has been updated";
     }
-    
-    public String UpdatePassword(String ChosenID, String newPassword){
+
+    public String UpdatePassword(String ChosenID, String newPassword) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(ChosenID);
         ChosenStaff.setPassword(newPassword);
         SavetoFile();
         return "Password: " + newPassword + "has been updated";
     }
-    
-    public String UpdateSalary(String ChosenID, int newSalary){
+
+    public String UpdateSalary(String ChosenID, int newSalary) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(ChosenID);
         ChosenStaff.setSalary(newSalary);
         SavetoFile();
         return "Salary: " + newSalary + "has been updated";
     }
-    
-    public String UpdateLeaves(String ChosenID, int newRemLeave){
+
+    public String UpdateLeaves(String ChosenID, int newRemLeave) {
         LoadfromFile();
         Staff ChosenStaff = StaffMap.get(ChosenID);
         ChosenStaff.setRemainingLeaves(newRemLeave);
         SavetoFile();
         return "Remaining Leaves: " + newRemLeave + "has been updated";
     }
-    
+
     public String getAllStaff() {
 
         LoadfromFile();

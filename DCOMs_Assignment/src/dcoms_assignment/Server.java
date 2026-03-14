@@ -18,7 +18,7 @@ public class Server {
             StaffAction StaffActions = new StaffActionImpl(SS);
 
             //Example for Leaves
-            if (leaveService.getAllLeaves().isEmpty()) {
+            if (leaveService.getLeaves().isEmpty()) {
                 Leaves leave1 = new Leaves(
                         "L001",
                         "ST01",
@@ -43,13 +43,13 @@ public class Server {
                 System.out.println("Default leaves created.");
             }
             
-            if (SS.getAllStaff().isEmpty()) {
+            if (SS.getStaff().isEmpty()) {
                 Staff hr = new Staff("HR01", "Alice", "HR", "1234", "Married", 3000);
                 Staff staff = new Staff("ST01", "Bob", "STAFF", "1234", "Single", 5000);
 
                 SS.AddStaff(hr);
                 SS.AddStaff(staff);
-
+  
                 System.out.println("Default staff created.");
             }
             
