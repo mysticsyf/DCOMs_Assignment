@@ -7,10 +7,11 @@ package dcoms_assignment;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class StaffActionImpl extends UnicastRemoteObject implements StaffAction{
+public class StaffActionImpl extends UnicastRemoteObject implements StaffAction {
+
     private StaffService service;
-    
-    protected StaffActionImpl(StaffService service) throws RemoteException{
+
+    protected StaffActionImpl(StaffService service) throws RemoteException {
         super();
         this.service = service;
     }
@@ -19,22 +20,27 @@ public class StaffActionImpl extends UnicastRemoteObject implements StaffAction{
     public Staff Login(String StaffID, String Password) throws RemoteException {
         return service.CheckLogin(StaffID, Password);
     }
-    
+
     @Override
     public String ViewProfile(Staff staff) throws RemoteException {
         return service.ViewProfile(staff);
     }
-    
+
     @Override
     public String ViewProfile(String StaffID) throws RemoteException {
         return service.ViewProfile(StaffID);
     }
-    
+
+    @Override
+    public void AddStaff(String name, String role, String MaritalStatus, int salary) throws RemoteException {
+        service.AddStaff(name, role, MaritalStatus, salary);
+    }
+
     @Override
     public String GetAllStaff() throws RemoteException {
         return service.getAllStaff();
     }
-    
+
     @Override
     public String UpdateName(String ChosenID, String newName) throws RemoteException {
         return service.UpdateName(ChosenID, newName);
@@ -59,6 +65,9 @@ public class StaffActionImpl extends UnicastRemoteObject implements StaffAction{
     public String UpdateLeaves(String ChosenID, int newRemLeave) throws RemoteException {
         return service.UpdateLeaves(ChosenID, newRemLeave);
     }
-    
 
+    @Override
+    public String CheckStaff(String StaffID) throws RemoteException {
+        return service.CheckStaff(StaffID);
+    }
 }

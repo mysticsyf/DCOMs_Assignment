@@ -56,7 +56,7 @@ public class Server {
             
             reg.rebind("StaffAction", StaffActions); 
             reg.rebind("ApplyLeave", applyLeaveImpl);
-
+            
             //basically adding this as an action client can find and use
             
             System.out.println("Server is now running... ");

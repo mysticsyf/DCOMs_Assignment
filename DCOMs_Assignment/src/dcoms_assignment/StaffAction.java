@@ -7,10 +7,12 @@ public interface StaffAction extends Remote{
     Staff Login(String StaffID, String password) throws RemoteException;
     String ViewProfile(Staff staff) throws RemoteException;
     String ViewProfile(String StaffID) throws RemoteException;
+    void AddStaff(String name, String role, String MaritalStatus, int salary) throws RemoteException;
     String GetAllStaff() throws RemoteException;
     String UpdateName(String ChosenID, String newName) throws RemoteException;
     String UpdateRole(String ChosenID, String newRole) throws RemoteException;
     String UpdatePassword(String ChosenID, String newPassword) throws RemoteException;
     String UpdateSalary(String ChosenID, int newSalary) throws RemoteException;
     String UpdateLeaves(String ChosenID, int newRemLeave) throws RemoteException;
+    String CheckStaff(String StaffID) throws RemoteException;
 }

@@ -24,7 +24,7 @@ public class StaffService {
         File file = new File(FileName);
 
         if (!file.exists()) {
-            System.out.println("no file bruh");
+            System.out.println("no file found");
             return;
         }
 
@@ -63,9 +63,10 @@ public class StaffService {
     private int HRCounter = 1;
 
     private String generateStaffId(Staff staff) {
-        if (staff.getRole() == "STAFF") {
+
+        if (staff.getRole().equals("STAFF")) {
             return String.format("ST%02d", StaffCounter++);
-        } else if (staff.getRole() == "HR") {
+        } else if (staff.getRole().equals("HR")) {
             return String.format("HR%02d", HRCounter++);
         } else {
             return null;
@@ -113,13 +114,13 @@ public class StaffService {
     }
 
     public String ViewProfile(Staff staff) {
-         LoadfromFile();
+        LoadfromFile();
         Staff StaffShow = StaffMap.get(staff.getStaffID());
         return StaffShow.toString();
     }
 
     public String ViewProfile(String StaffID) {
-         LoadfromFile();
+        LoadfromFile();
         Staff StaffShow = StaffMap.get(StaffID);
         return StaffShow.toString();
     }
@@ -183,4 +184,15 @@ public class StaffService {
         sb.append("\nSelect StaffID: ");
         return sb.toString();
     }
+
+    public String CheckStaff(String staffID) {
+
+    LoadfromFile();
+
+    if (!StaffMap.containsKey(staffID)) {
+        return "Staff ID does not exist!";
+    }
+
+    return "VALID";
+}
 }

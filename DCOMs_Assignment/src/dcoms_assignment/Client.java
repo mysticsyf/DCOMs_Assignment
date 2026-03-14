@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Client {
+
     public static void main(String[] args) {
         try {
             Scanner sc = new Scanner(System.in);
@@ -17,15 +18,15 @@ public class Client {
 
             Staff CurrentUser = null;
             boolean StopCon = true;
-            while(StopCon){
-                if (CurrentUser == null){
+            while (StopCon) {
+                if (CurrentUser == null) {
                     System.out.println("Welcome to XXX HR system!");
                     System.out.println("1. Login");
                     System.out.println("2. Exit System");
                     System.out.println("Enter Choice: ");
                     int FirstChoice = sc.nextInt();
                     sc.nextLine();
-                    if(FirstChoice == 1){
+                    if (FirstChoice == 1) {
                         System.out.println("Please enter your login details");
 
                         System.out.println("Staff ID: ");
@@ -35,27 +36,28 @@ public class Client {
                         String InputPassword = sc.nextLine();
 
                         CurrentUser = StaffActions.Login(InputID, InputPassword);
-                    }else if(FirstChoice == 2){
+                    } else if (FirstChoice == 2) {
                         StopCon = false;
                     }
-                    
-                }else{
+
+                } else {
                     if (CurrentUser.getRole().equals("HR")) {
 
                         int choice;
                         do {
                             System.out.println("\n===== HR MENU =====");
                             System.out.println("1. View Leave Applications");
-                            System.out.println("2. Update Staff Profile");
-                            System.out.println("3. Generate Report");
-                            System.out.println("4. Apply Leave");
-                            System.out.println("5. View My Leave");
-                            System.out.println("6. View My Profile");
-                            System.out.println("7. Exit");
+                            System.out.println("2. Create new staff");
+                            System.out.println("3. Update Staff Profile");
+                            System.out.println("4. Generate Report");
+                            System.out.println("5. Apply Leave");
+                            System.out.println("6. View My Leave");
+                            System.out.println("7. View My Profile");
+                            System.out.println("8. Exit");
                             System.out.print("Enter choice: ");
                             choice = sc.nextInt();
                             sc.nextLine();
-                            if (choice == 1) {
+                            if (choice == 1) { //VIEW LEAVE APPLICATIONS
 
                                 String leaveDetails = al.getAllLeaves();
 
@@ -90,53 +92,85 @@ public class Client {
                                 } else {
                                     System.out.println("Invalid choice");
                                 }
-                            }else if (choice == 2){
+                            } else if (choice == 2) { //CREATE STAFF
+                                System.out.print("Enter Name: ");
+                                String name = sc.nextLine();
+
+                                System.out.print("Enter role (HR/STAFF): ");
+                                String role = sc.nextLine();
+
+                                System.out.print("Enter marital status (Married/Single): ");
+                                String MaritalStatus = sc.nextLine();
+
+                                System.out.print("Enter salary: ");
+                                int salary = sc.nextInt();
+                                sc.nextLine();
+
+                                StaffActions.AddStaff(name, role, MaritalStatus, salary);
+
+                                System.out.println("Staff successfully created.");
+
+                            } else if (choice == 3) { //update stafff
                                 String StaffDetails = StaffActions.GetAllStaff();
                                 System.out.println(StaffDetails);
 
                                 String ChosenID = sc.nextLine();
-                                System.out.println("\n1. Name" + "\n2. Role" + 
-                                        "\n3. Password" + "\n4. Salary" + 
-                                        "\n5. Remaining Leaves");
+                                String check = StaffActions.CheckStaff(ChosenID);
+                                if (!check.equals("VALID")) {
+                                    System.out.println(check);
+                                    continue;
+                                }
+                                System.out.println("\n1. Name" + "\n2. Role"
+                                        + "\n3. Password" + "\n4. Salary"
+                                        + "\n5. Remaining Leaves");
                                 System.out.println("Select attribute to update: ");
                                 int choice2 = sc.nextInt();
+                                sc.nextLine();
 
-                                if(choice2 == 1){
+                                if (choice2 == 1) {
                                     System.out.println("Enter the new Name: ");
                                     String newName = sc.nextLine();
 
                                     StaffActions.UpdateName(ChosenID, newName);
-                                }else if (choice2 == 2){
+                                } else if (choice2 == 2) {
                                     System.out.println("Enter the new Role: ");
                                     String newRole = sc.nextLine();
 
                                     StaffActions.UpdateRole(ChosenID, newRole);
-                                }else if (choice2 == 3){
+                                } else if (choice2 == 3) {
                                     System.out.println("Enter the new Password: ");
                                     String newPassword = sc.nextLine();
 
                                     StaffActions.UpdatePassword(ChosenID, newPassword);
-                                }else if (choice2 == 4){
+                                } else if (choice2 == 4) {
                                     System.out.println("Enter the new Salary: ");
                                     int newSalary = sc.nextInt();
 
                                     StaffActions.UpdateSalary(ChosenID, newSalary);
-                                }else if (choice2 == 5){
+                                } else if (choice2 == 5) {
                                     System.out.println("Enter the new Remaining Leaves: ");
                                     int newRemLeave = sc.nextInt();
 
                                     StaffActions.UpdateLeaves(ChosenID, newRemLeave);
-                                }                  
-                            }else if(choice == 3){
+                                }
+                                
+                            } else if (choice == 4) { //generate report
                                 System.out.println("Enter StaffID to generate report on: ");
                                 String ChosenID = sc.nextLine();
+
+                                String check = StaffActions.CheckStaff(ChosenID);
+                                if (!check.equals("VALID")) {
+                                    System.out.println(check);
+                                    continue;
+                                }
                                 
                                 System.out.println("\nStaff Details\n");
                                 System.out.println(StaffActions.ViewProfile(ChosenID));
-                                
+
                                 System.out.println("\nStaff Leaves\n");
                                 System.out.println(al.getLeavesByStaffId(ChosenID));
-                            }else if(choice == 4){
+                                
+                            } else if (choice == 5) { //APPLY LEAVE HR
                                 System.out.println("Enter start date (YYYY-MM-DD): ");
                                 LocalDate start = LocalDate.parse(sc.nextLine());
 
@@ -148,16 +182,18 @@ public class Client {
 
                                 al.applyLeave(CurrentUser, start, end, reason);
 
-                            }else if(choice == 5){
+                            } else if (choice == 6) { //VIEW LEAVE HR
                                 String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
                                 System.out.println(result);
 
-                            }else if(choice == 6){
+                            } else if (choice == 7) { //VIEW PROFILE HR
                                 String result = StaffActions.ViewProfile(CurrentUser);
                                 System.out.println(result);
+                            }else {
+                                System.out.println("Invalid choice.");
                             }
 
-                        } while (choice != 7);
+                        } while (choice != 8);
                         CurrentUser = null;
 
                     } else {
@@ -189,7 +225,7 @@ public class Client {
                                 String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
                                 System.out.println(result);
 
-                            } else if (choice == 3){
+                            } else if (choice == 3) {
                                 String result = StaffActions.ViewProfile(CurrentUser);
                                 System.out.println(result);
 
@@ -198,12 +234,12 @@ public class Client {
                             }
 
                         } while (choice != 4);
-                        
+
                         CurrentUser = null;
                     }
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
