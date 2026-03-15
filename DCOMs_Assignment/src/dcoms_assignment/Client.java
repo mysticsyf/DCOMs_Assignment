@@ -4,6 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 public class Client {
@@ -153,7 +154,7 @@ public class Client {
 
                                     StaffActions.UpdateLeaves(ChosenID, newRemLeave);
                                 }
-                                
+
                             } else if (choice == 4) { //generate report
                                 System.out.println("Enter StaffID to generate report on: ");
                                 String ChosenID = sc.nextLine();
@@ -163,25 +164,30 @@ public class Client {
                                     System.out.println(check);
                                     continue;
                                 }
-                                
+
                                 System.out.println("\nStaff Details\n");
                                 System.out.println(StaffActions.ViewProfile(ChosenID));
 
                                 System.out.println("\nStaff Leaves\n");
                                 System.out.println(al.getLeavesByStaffId(ChosenID));
-                                
+
                             } else if (choice == 5) { //APPLY LEAVE HR
-                                System.out.println("Enter start date (YYYY-MM-DD): ");
-                                LocalDate start = LocalDate.parse(sc.nextLine());
+                                try {
+                                    System.out.println("Enter start date (YYYY-MM-DD): ");
+                                    LocalDate date1 = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter end date (YYYY-MM-DD): ");
-                                LocalDate end = LocalDate.parse(sc.nextLine());
+                                    System.out.println("Enter end date (YYYY-MM-DD): ");
+                                    LocalDate date2 = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter leave reason: ");
-                                String reason = sc.nextLine();
+                                    System.out.println("Enter leave reason: ");
+                                    String reason = sc.nextLine();
 
-                                al.applyLeave(CurrentUser, start, end, reason);
-
+                                    String result = al.applyLeave(CurrentUser, date1, date2, reason);
+                                    System.out.println(result);
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("Error: Invalid date format. Please enter date as YYYY-MM-DD.");
+                                }
+                                
                             } else if (choice == 6) { //VIEW LEAVE HR
                                 String result = al.getLeavesByStaffId(CurrentUser.getStaffID());
                                 System.out.println(result);
@@ -189,7 +195,7 @@ public class Client {
                             } else if (choice == 7) { //VIEW PROFILE HR
                                 String result = StaffActions.ViewProfile(CurrentUser);
                                 System.out.println(result);
-                            }else {
+                            } else {
                                 System.out.println("Invalid choice.");
                             }
 
@@ -210,16 +216,22 @@ public class Client {
                             choice = sc.nextInt();
                             sc.nextLine();
                             if (choice == 1) {
-                                System.out.println("Enter start date (YYYY-MM-DD): ");
-                                LocalDate start = LocalDate.parse(sc.nextLine());
+                                try {
+                                    System.out.println("Enter start date (YYYY-MM-DD): ");
+                                    LocalDate date1 = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter end date (YYYY-MM-DD): ");
-                                LocalDate end = LocalDate.parse(sc.nextLine());
+                                    System.out.println("Enter end date (YYYY-MM-DD): ");
+                                    LocalDate date2 = LocalDate.parse(sc.nextLine());
 
-                                System.out.println("Enter leave reason: ");
-                                String reason = sc.nextLine();
+                                    System.out.println("Enter leave reason: ");
+                                    String reason = sc.nextLine();
 
-                                al.applyLeave(CurrentUser, start, end, reason);
+                                    String result = al.applyLeave(CurrentUser, date1, date2, reason);
+                                    System.out.println(result);
+
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("Invalid date format. Please enter valid format for date");
+                                }
 
                             } else if (choice == 2) {
                                 String result = al.getLeavesByStaffId(CurrentUser.getStaffID());

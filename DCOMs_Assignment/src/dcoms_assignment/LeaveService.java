@@ -55,7 +55,7 @@ public class LeaveService {
         return String.format("L%02d", leaveCounter++);
     }
 
-    public String ApplyLeave(Leaves leave) {
+    public String applyLeave(Leaves leave) {
         String newId = generateLeaveId();
         leave.setLeaveId(newId);
         leaveMap.put(newId, leave);
@@ -63,23 +63,27 @@ public class LeaveService {
         return newId;
     }
 
-    public void ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
-        if (staff.getRemainingLeaves() <= 0) {
-            System.out.println("no more leaves available");
-        } else {
-            String newId = generateLeaveId();
-            Leaves NewLeave = new Leaves(
-                    "",
-                    staff.getStaffID(),
-                    date1,
-                    date2,
-                    reason,
-                    "PENDING"
-            );
-            NewLeave.setLeaveId(newId);
-            leaveMap.put(newId, NewLeave);
-            saveToFile();
+    public String ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
+
+        if (date2.isBefore(date1)) {
+            return "End date cannot be earlier than start date";
         }
+        if (staff.getRemainingLeaves() <= 0) {
+            return "No more leaves available";
+        }
+
+        Leaves newLeave = new Leaves(
+                "",
+                staff.getStaffID(),
+                date1,
+                date2,
+                reason,
+                "PENDING"
+        );
+
+        String leaveId = applyLeave(newLeave);
+
+        return "Leave applied successfully. Leave ID: " + leaveId;
     }
 
     public String ApproveLeave(String leaveId) {
@@ -87,11 +91,11 @@ public class LeaveService {
         Leaves leave = leaveMap.get(leaveId);
         if (leave != null) {
             leave.setStatus("APPROVED");
-           
+
             String StaffID = leave.getStaffId();
             StaffService staffService = new StaffService();
             staffService.ReduceStaffLeave(StaffID);
-             saveToFile();
+            saveToFile();
             return "Leave ID: " + leaveId + " has been approved!";
         } else {
             return "Leave not found";
