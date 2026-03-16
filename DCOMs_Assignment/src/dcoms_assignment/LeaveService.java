@@ -55,7 +55,7 @@ public class LeaveService {
         return String.format("L%02d", leaveCounter++);
     }
 
-    public String applyLeave(Leaves leave) {
+    public String LeaveAPL(Leaves leave) {
         String newId = generateLeaveId();
         leave.setLeaveId(newId);
         leaveMap.put(newId, leave);
@@ -81,7 +81,7 @@ public class LeaveService {
                 "PENDING"
         );
 
-        String leaveId = applyLeave(newLeave);
+        String leaveId = LeaveAPL(newLeave);
 
         return "Leave applied successfully. Leave ID: " + leaveId;
     }

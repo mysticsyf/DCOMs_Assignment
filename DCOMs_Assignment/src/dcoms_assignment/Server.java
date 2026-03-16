@@ -37,8 +37,8 @@ public class Server {
                         "PENDING"
                 );
 
-                leaveService.applyLeave(leave1);
-                leaveService.applyLeave(leave2);
+                leaveService.LeaveAPL(leave1);
+                leaveService.LeaveAPL(leave2);
 
                 System.out.println("Default leaves created.");
             }

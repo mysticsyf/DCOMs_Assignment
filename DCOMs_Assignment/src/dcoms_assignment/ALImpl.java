@@ -18,7 +18,7 @@ public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
 
  
     @Override
-    public String applyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) throws RemoteException {
+    public String ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) throws RemoteException {
         return service.ApplyLeave(staff, date1, date2, reason);
     }
 

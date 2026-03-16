@@ -182,7 +182,7 @@ public class Client {
                                     System.out.println("Enter leave reason: ");
                                     String reason = sc.nextLine();
 
-                                    String result = al.applyLeave(CurrentUser, date1, date2, reason);
+                                    String result = al.ApplyLeave(CurrentUser, date1, date2, reason);
                                     System.out.println(result);
                                 } catch (DateTimeParseException e) {
                                     System.out.println("Error: Invalid date format. Please enter date as YYYY-MM-DD.");
@@ -203,7 +203,6 @@ public class Client {
                         CurrentUser = null;
 
                     } else {
-
                         int choice;
                         do {
                             System.out.println("\n===== STAFF MENU =====");
@@ -226,7 +225,7 @@ public class Client {
                                     System.out.println("Enter leave reason: ");
                                     String reason = sc.nextLine();
 
-                                    String result = al.applyLeave(CurrentUser, date1, date2, reason);
+                                    String result = al.ApplyLeave(CurrentUser, date1, date2, reason);
                                     System.out.println(result);
 
                                 } catch (DateTimeParseException e) {
