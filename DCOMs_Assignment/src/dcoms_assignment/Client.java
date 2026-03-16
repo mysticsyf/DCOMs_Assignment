@@ -21,7 +21,7 @@ public class Client {
             boolean StopCon = true;
             while (StopCon) {
                 if (CurrentUser == null) {
-                    System.out.println("Welcome to XXX HR system!");
+                    System.out.println("Welcome to BHEL HRM system!");
                     System.out.println("1. Login");
                     System.out.println("2. Exit System");
                     System.out.println("Enter Choice: ");
