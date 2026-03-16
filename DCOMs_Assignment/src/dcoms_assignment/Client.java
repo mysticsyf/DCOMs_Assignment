@@ -103,9 +103,18 @@ public class Client {
                                 System.out.print("Enter marital status (Married/Single): ");
                                 String MaritalStatus = sc.nextLine();
 
-                                System.out.print("Enter salary: ");
-                                int salary = sc.nextInt();
-                                sc.nextLine();
+                                int salary = 0;
+                                while (true) {
+                                    System.out.print("Enter salary: ");
+                                    if (sc.hasNextInt()) {
+                                        salary = sc.nextInt();
+                                        sc.nextLine();
+                                        break;
+                                    } else {
+                                        System.out.println("Invalid input. Please enter a number.");
+                                        sc.nextLine(); // discard bad input
+                                    }
+                                }
 
                                 StaffActions.AddStaff(name, role, MaritalStatus, salary);
 
