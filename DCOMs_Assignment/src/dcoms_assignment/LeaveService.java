@@ -64,12 +64,14 @@ public class LeaveService {
     }
 
     public String ApplyLeave(Staff staff, LocalDate date1, LocalDate date2, String reason) {
-
+        loadFromFile();
+        Staff currentStaff = staff;
+        
         if (date2.isBefore(date1)) {
             return "End date cannot be earlier than start date";
         }
-        if (staff.getRemainingLeaves() <= 0) {
-            return "No more leaves available";
+        if (currentStaff.getRemainingLeaves() <= 0) {
+            return "No more leaves available, cannot apply";
         }
 
         Leaves newLeave = new Leaves(
