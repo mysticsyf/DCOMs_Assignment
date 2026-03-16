@@ -33,6 +33,10 @@ public class StaffService {
             FileInputStream FileIn = new FileInputStream(FileName);
             ObjectInputStream In = new ObjectInputStream(FileIn);
             StaffMap = (HashMap<String, Staff>) In.readObject();
+            
+            StaffCounter = 1;
+            HRCounter = 1;
+            
             for (Staff staff : StaffMap.values()) {
                 if (staff.getRole().equals("STAFF")) {
                     StaffCounter += 1;
