@@ -12,7 +12,7 @@ public class Client {
     public static void main(String[] args) {
         try {
             Scanner sc = new Scanner(System.in);
-            Registry reg = LocateRegistry.getRegistry("localhost", 1099);
+            Registry reg = LocateRegistry.getRegistry("localhost", 1099);//later change if needed
 
             StaffAction StaffActions = (StaffAction) reg.lookup("StaffAction");
             ApplyLeave al = (ApplyLeave) reg.lookup("ApplyLeave");

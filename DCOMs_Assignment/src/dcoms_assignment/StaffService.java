@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class StaffService {
 
-    StringBuilder sb = new StringBuilder();
     private Map<String, Staff> StaffMap;
     private final String FileName = "Staff.ser";
+    private boolean loaded = false;
 
     public StaffService() {
         StaffMap = new HashMap<>();
@@ -21,6 +21,7 @@ public class StaffService {
     }
 
     private void LoadfromFile() {
+        if (loaded) return;
         File file = new File(FileName);
 
         if (!file.exists()) {
@@ -33,9 +34,9 @@ public class StaffService {
             ObjectInputStream In = new ObjectInputStream(FileIn);
             StaffMap = (HashMap<String, Staff>) In.readObject();
             for (Staff staff : StaffMap.values()) {
-                if (staff.getRole() == "STAFF") {
+                if (staff.getRole().equals("STAFF")) {
                     StaffCounter += 1;
-                } else if (staff.getRole() == "HR") {
+                } else if (staff.getRole().equals("HR")) {
                     HRCounter += 1;
                 }
             }
@@ -44,6 +45,7 @@ public class StaffService {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        loaded = true;
     }
 
     private void SavetoFile() {
@@ -168,6 +170,7 @@ public class StaffService {
     public String getAllStaff() {
 
         LoadfromFile();
+        StringBuilder sb = new StringBuilder();
 
         if (StaffMap.isEmpty()) {
             return "No staff records found.";
