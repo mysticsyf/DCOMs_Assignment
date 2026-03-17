@@ -5,7 +5,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 
 import java.util.Map;
-//test 2
 
 public class ALImpl extends UnicastRemoteObject implements ApplyLeave {
 
