@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Server {
     public static void main(String[] args){
         try{
-            //Leave Stuff *change place/remove later
+            //Initiate Services
             LeaveService leaveService = new LeaveService();
             StaffService SS = new StaffService();
             
@@ -17,7 +17,7 @@ public class Server {
             ALImpl applyLeaveImpl = new ALImpl(leaveService);
             StaffAction StaffActions = new StaffActionImpl(SS);
 
-            //Example for Leaves
+            //Default for Leaves
             if (leaveService.getLeaves().isEmpty()) {
                 Leaves leave1 = new Leaves(
                         "L001",
@@ -43,6 +43,7 @@ public class Server {
                 System.out.println("Default leaves created.");
             }
             
+            //Default for Staff
             if (SS.getStaff().isEmpty()) {
                 Staff hr = new Staff("HR01", "Alice", "HR", "1234", "Married", 3000);
                 Staff staff = new Staff("ST01", "Bob", "STAFF", "1234", "Single", 5000);
@@ -56,12 +57,9 @@ public class Server {
             
             reg.rebind("StaffAction", StaffActions); 
             reg.rebind("ApplyLeave", applyLeaveImpl);
-            
-            //basically adding this as an action client can find and use
+            //bind for client to call and use
             
             System.out.println("Server is now running... ");
-            //ok now we try having 2 diff ppl access server
-            //run this class first
             
         }catch(Exception e){
             e.printStackTrace();
