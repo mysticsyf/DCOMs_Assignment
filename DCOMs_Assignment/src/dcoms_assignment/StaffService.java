@@ -21,7 +21,7 @@ public class StaffService {
     }
 
     private void LoadfromFile() {
-        if (loaded) return;
+
         File file = new File(FileName);
 
         if (!file.exists()) {
@@ -49,7 +49,7 @@ public class StaffService {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        loaded = true;
+
     }
 
     private void SavetoFile() {
